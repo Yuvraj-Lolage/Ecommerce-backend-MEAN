@@ -8,7 +8,7 @@ productRouter.route('/')
 productRouter.route('/:categoryId')
     .get(handleGetProductInCategory)
 
-productRouter.route('/:productId')
+productRouter.route('/getById/:productId')
     .get(handleGetProductById)
 
 productRouter.route('/create')
@@ -19,6 +19,7 @@ productRouter.route('/:categoryId/updateproduct/:productId')
 
 productRouter.route('/:categoryId/deleteproduct/:productId')
     .delete(handleDeleteProduct)
+
 
 
 

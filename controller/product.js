@@ -17,7 +17,7 @@ const handleCreateProduct = async (req, res) => {
                 return res.status(201).send();
             })
     } catch (error) {
-        return res.status(500).json({ message: error });   
+        return res.status(500).json({ message: error });
     }
 }
 
@@ -66,7 +66,9 @@ const handleGetProductById = async (req, res) => {
         }
 
         await Product.find({ _id: req.params.productId })
-            .then((response) => res.send(response))
+            .then((response) => {
+                return res.send(response)
+            })
     } catch {
         console.error(error);
         return res.status(500).json({ message: 'Internal Server Error' });

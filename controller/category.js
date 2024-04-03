@@ -1,4 +1,3 @@
-const { CategoryModel } = require('../models/category');
 const { category } = require('../models/category');
 
 const handleGetCategory = async (req, res) => {
@@ -9,16 +8,21 @@ const handleGetCategory = async (req, res) => {
 
 
 const handleCreateCategory = async (req, res) => {
-    await CategoryModel.create({
-        name: req.body.name
-    }).then(() => {
-        res.send(201);
-    })
+    try {
+        await category.create({
+            name: req.body.category_name
+        });
+        res.status(201).send("Category created successfully");
+    } catch (error) {
+        console.error("Error creating category:", error);
+        res.status(500).send("Internal Server Error");
+    }
 }
+
 
 const handleUpdateCategory = async (req, res) => {
     let newCategoryName = req.body.name;
-    await CategoryModel.findOneAndUpdate({ _id: req.params.categoryId },
+    await category.findOneAndUpdate({ _id: req.params.categoryId },
         { $set: req.body }).then((updatedRes) => {
             res.send(updatedRes);
         });
