@@ -1,4 +1,4 @@
-const { CategoryModel } = require('../db/category.model');
+const { CategoryModel } = require('../models/category');
 const { category } = require('../models/category');
 
 const handleGetCategory = async (req, res) => {
@@ -35,10 +35,19 @@ const handleSearchCategory = async (req, res) => {
         .then((response) => { res.send(response) })
 }
 
+const handleGetCategoryIdByName = async (req, res) => {
+    try {
+        const categoryId = await category.find({ name: req.params.catName })
+        return res.send(categoryId[0]._id);
+    } catch (error) {
+        return res.send(error)
+    }
+}
 module.exports = {
     handleGetCategory,
     handleCreateCategory,
     handleUpdateCategory,
     handleDeleteCategory,
-    handleSearchCategory
+    handleSearchCategory,
+    handleGetCategoryIdByName
 }

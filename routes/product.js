@@ -1,14 +1,17 @@
 const express = require('express');
 
 const productRouter = express.Router();
-const { handleGetProducts, handleCreateProduct, handleUpdateProduct, handleDeleteProduct, handleGetProductById } = require('../controller/product');
+const { handleGetProducts, handleCreateProduct, handleUpdateProduct, handleDeleteProduct, handleGetProductById, handleGetProductInCategory } = require('../controller/product');
 productRouter.route('/')
     .get(handleGetProducts)
+
+productRouter.route('/:categoryId')
+    .get(handleGetProductInCategory)
 
 productRouter.route('/:productId')
     .get(handleGetProductById)
 
-productRouter.route('/:categoryId/createproducts')
+productRouter.route('/create')
     .post(handleCreateProduct)
 
 productRouter.route('/:categoryId/updateproduct/:productId')

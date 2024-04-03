@@ -7,12 +7,18 @@ const handleGetProducts = async (req, res) => {
 }
 
 const handleCreateProduct = async (req, res) => {
-    await Product.create({
-        name: req.body.name,
-        _categoryId: req.params.categoryId,
-        price: req.body.price
-    })
-        .then(() => res.send(201))
+    try {
+        await Product.create({
+            name: req.body.name,
+            _categoryId: req.body._categoryId,
+            price: req.body.price
+        })
+            .then(() => {
+                return res.status(201).send();
+            })
+    } catch (error) {
+        return res.status(500).json({ message: error });   
+    }
 }
 
 const handleUpdateProduct = async (req, res) => {
@@ -59,9 +65,23 @@ const handleGetProductById = async (req, res) => {
             return res.status(404).json({ message: 'Product Not Found' });
         }
 
-        await Product.find({_id:req.params.productId})
+        await Product.find({ _id: req.params.productId })
             .then((response) => res.send(response))
     } catch {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+
+const handleGetProductInCategory = async (req, res) => {
+    try {
+        const products = Product.find({ _categoryId: req.params.categoryId })
+            .then((result) => {
+                return res.send(result);
+            })
+
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
@@ -71,5 +91,6 @@ module.exports = {
     handleCreateProduct,
     handleUpdateProduct,
     handleDeleteProduct,
-    handleGetProductById
+    handleGetProductById,
+    handleGetProductInCategory
 }
